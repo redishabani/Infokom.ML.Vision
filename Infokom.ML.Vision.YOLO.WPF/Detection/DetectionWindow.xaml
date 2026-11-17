@@ -1,0 +1,74 @@
+<Window x:Class="Infokom.ML.Vision.YOLO.WPF.Detection.DetectionWindow"
+	   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	   Title="YOLO Video Detection" Height="850" Width="1400" MinHeight="600" MinWidth="900">
+    <Grid Margin="12">
+	   <Grid.ColumnDefinitions>
+		  <ColumnDefinition Width="350" />
+		  <ColumnDefinition Width="*" />
+	   </Grid.ColumnDefinitions>
+	   <Grid.RowDefinitions>
+		  <RowDefinition Height="*" />
+		  <RowDefinition Height="Auto" />
+	   </Grid.RowDefinitions>
+
+	   <DockPanel Grid.Row="0" Grid.Column="0" Margin="0,0,10,0">
+		  <StackPanel DockPanel.Dock="Top">
+			 <GroupBox Header="Model" Margin="0,0,0,8">
+				<StackPanel Margin="8">
+				    <TextBox Text="{Binding ModelPath}" IsReadOnly="True" Margin="0,0,0,6" ToolTip="{Binding ModelPath}" />
+				    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+					   <Button Content="Browse..." Click="BrowseModel_Click" Padding="10,5" />
+					   <Button Content="Load model" Command="{Binding LoadModelCommand}" Margin="6,0,0,0" Padding="10,5" />
+				    </StackPanel>
+				</StackPanel>
+			 </GroupBox>
+			 <GroupBox Header="Video and playback" Margin="0,0,0,8">
+				<StackPanel Margin="8">
+				    <TextBox Text="{Binding VideoPath}" IsReadOnly="True" Margin="0,0,0,6" ToolTip="{Binding VideoPath}" />
+				    <Button Content="Choose video..." Click="BrowseVideo_Click" HorizontalAlignment="Stretch" Padding="10,5" Margin="0,0,0,6" />
+				    <UniformGrid Columns="3">
+					   <Button Content="Play" Command="{Binding PlayCommand}" Margin="2" Padding="6,5" />
+					   <Button Content="Pause" Command="{Binding PauseCommand}" Margin="2" Padding="6,5" />
+					   <Button Content="Stop / replay" Command="{Binding StopCommand}" Margin="2" Padding="6,5" />
+				    </UniformGrid>
+				</StackPanel>
+			 </GroupBox>
+		  </StackPanel>
+		  <GroupBox Header="Source preview (video FPS)" Margin="0,0,0,8">
+			 <DockPanel>
+				<TextBlock DockPanel.Dock="Bottom" Text="{Binding SourceFrameLabel}" Margin="6,4" FontFamily="Consolas" />
+				<Border Background="#181818" Padding="4">
+				    <Image Source="{Binding OriginalFrame}" Stretch="Uniform" />
+				</Border>
+			 </DockPanel>
+		  </GroupBox>
+	   </DockPanel>
+
+	   <Grid Grid.Row="0" Grid.Column="1">
+		  <Grid.RowDefinitions>
+			 <RowDefinition Height="Auto" />
+			 <RowDefinition Height="*" />
+		  </Grid.RowDefinitions>
+			<GroupBox Grid.Row="0" Header="Loaded model — ONNX session metadata">
+				<ScrollViewer MaxHeight="170" VerticalScrollBarVisibility="Auto">
+					<TextBlock Text="{Binding ModelInformation}" FontFamily="Consolas" TextWrapping="Wrap" Margin="8" />
+				</ScrollViewer>
+			</GroupBox>
+			<GroupBox Grid.Row="1" Header="Detected frame (adaptive inference rate)" Margin="0,0,0,8">
+			 <DockPanel>
+				<TextBlock DockPanel.Dock="Bottom" Text="{Binding DetectedFrameLabel}" Margin="6,4" FontFamily="Consolas" />
+				<Border Background="#181818" Padding="4">
+					<Image Source="{Binding DetectedFrame}" Stretch="Uniform" />
+				</Border>
+			 </DockPanel>
+		  </GroupBox>
+		  
+	   </Grid>
+
+	   <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,8,0,0">
+		  <TextBlock Text="{Binding Diagnostics}" FontFamily="Consolas" TextWrapping="Wrap" Margin="0,0,0,4" />
+		  <TextBlock Text="{Binding Status}" TextWrapping="Wrap" Foreground="DimGray" />
+	   </StackPanel>
+    </Grid>
+</Window>

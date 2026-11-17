@@ -14,6 +14,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infokom.ML.Vision.YOLO\Infokom.ML.Vision.YOLO.csproj" />
+    <ProjectReference Include="..\Infokom.ML.Vision\Infokom.ML.Vision.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Detection\" />
   </ItemGroup>
 
 </Project>

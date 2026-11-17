@@ -2,7 +2,7 @@
 
 Infokom.ML.Vision is a .NET solution for building and experimenting with computer-vision and machine-learning applications. It is not limited to license-plate recognition (LPR): the repository includes general image-processing utilities, an ONNX Runtime-based YOLO26 object-detection component, numerical building blocks, and Kinect-related APIs. LPR is one application direction within the broader vision work.
 
-The codebase is a collection of reusable components, desktop-application scaffolding, and demos/benchmarks rather than one finished, end-user vision product. The YOLO console benchmark is the easiest way to try the current detection flow on a video.
+The codebase is a collection of reusable components, desktop-application scaffolding, and demos/benchmarks rather than one finished, end-user vision product. The YOLO WPF app provides an interactive way to load a detection model and test it against a video; the console benchmark remains available for a lightweight example.
 
 ## What is included
 
@@ -11,7 +11,8 @@ The codebase is a collection of reusable components, desktop-application scaffol
 | `Infokom.ML.Vision` | Core vision helpers that bridge RGB image arrays and OpenCvSharp matrices, resize/fit images, display images, and draw detected features. |
 | `Infokom.ML.Vision.YOLO` | YOLO26 inference support using ONNX Runtime. It prepares images for model input and represents detected classes, bounding boxes, and confidence scores. |
 | `Infokom.ML.Vision.YOLO.Benchmarks` | Console video demo that runs the YOLO component frame by frame and displays the input and annotated result. |
-| `Infokom.ML.Vision.Apps.GUI.DesktopLPR` | WPF desktop application project intended for LPR scenarios. Its current window is a starter shell, not a complete recognition workflow. |
+| `Infokom.ML.Vision.YOLO.WPF` | Interactive WPF tool for loading a compatible ONNX detector and testing it on video with original/detected frames and runtime diagnostics. |
+| `Infokom.ML.Vision.Apps.GUI.DesktopLPR` | WPF desktop application project intended for LPR scenarios; it is separate from the generic YOLO detection workflow. |
 | `Infokom.Numerics` | Reusable numeric types and operations used by the vision code, including RGB and bounding-box-related types. |
 | `Microsoft.Kinect` | Kinect API and data types for sensor-based vision scenarios. |
 
@@ -24,7 +25,7 @@ The core vision project uses OpenCvSharp for image and video operations and shar
 3. Run inference and decode the model output into class IDs, confidence scores, and bounding boxes.
 4. Draw the detections over the frame and show the source and result in OpenCV windows.
 
-The current detection taxonomy contains the 80 COCO object classes. This general-purpose object detector can identify classes such as cars and people, but it does not read license-plate characters (OCR) or provide a complete LPR workflow. The WPF LPR project is currently a starter UI shell. These projects are intended as components and experiments that can be extended for broader vision use cases.
+The current detection taxonomy contains the 80 COCO object classes. This general-purpose object detector can identify classes such as cars and people, but it does not read license-plate characters (OCR) or provide a complete LPR workflow. The YOLO WPF app is a model-testing tool, not an LPR application. These projects are intended as components and experiments that can be extended for broader vision use cases.
 
 ## Visual frame sources
 
@@ -47,6 +48,14 @@ using var subscription = sensor.Subscribe(frame =>
 To use a Kinect instead, create the sensor with `VisualSensor.FromKinectColorCamera()` or pass a sensor ID. Both factory methods return `IVisualSensor`, so the rest of the frame-processing code does not depend on the source type.
 
 For pull-based processing, call `TryGrabFrame(out var frame, millisecondsWait)` repeatedly instead. It returns `false` when a frame is not available before the timeout or when the video reaches its end. Dispose the sensor when finished to release its capture resources.
+
+## Visual predictors
+
+`Infokom.ML.Vision.Predictors.IVisualPredictor<TFeature>` defines prediction over `RGB[,]` images independently of a particular model. Implementations provide `Predict` for one image and `Observe` to transform an `IObservable<RGB[,]>` into `VisualPrediction<TFeature>` values containing the source image, its features, and inference duration. The YOLO project exposes a detector through `Yolo.CreateDetector(...)`; its model-specific tensor handling remains inside that project.
+
+## YOLO WPF model testing
+
+The left panel contains model/video controls and a source preview that advances at the video's reported FPS. The larger right panel shows annotated detections at an adaptive inference rate and displays the loaded ONNX session's graph, producer, version, input/output tensor metadata, and custom metadata. Both views are fed by the same captured frame stream; a one-frame latest-value queue lets inference discard stale frames when it falls behind, and each detection view labels the exact source frame it represents. Diagnostics report source FPS separately from detection FPS, along with inference latency, detection count, process CPU usage, and working-set memory.
 
 ## YOLO video demo
 

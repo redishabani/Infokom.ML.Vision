@@ -197,14 +197,42 @@ namespace Infokom.ML.Vision.YOLO.Models
 
 					_session = new InferenceSession(modelFile.FullName);
 					_inference = new();
+					ModelInformation = CreateModelInformation(modelFile.Name);
 				}
 
 				public Session(string modelFileName)
 				{
-					ArgumentNullException.ThrowIfNull(modelFileName);
+					ArgumentException.ThrowIfNullOrWhiteSpace(modelFileName);
 
 					_session = new InferenceSession(modelFileName);
 					_inference = new();
+					ModelInformation = CreateModelInformation(Path.GetFileName(modelFileName));
+				}
+
+				public string ModelInformation { get; }
+
+				private string CreateModelInformation(string modelName)
+				{
+					var metadata = _session.ModelMetadata;
+					var inputs = string.Join(Environment.NewLine, _session.InputMetadata.Select(item =>
+						$"  {item.Key}: {item.Value.ElementType.Name}[{string.Join(", ", item.Value.Dimensions)}]"));
+					var outputs = string.Join(Environment.NewLine, _session.OutputMetadata.Select(item =>
+						$"  {item.Key}: {item.Value.ElementType.Name}[{string.Join(", ", item.Value.Dimensions)}]"));
+					var lines = new List<string>
+					{
+						$"File: {modelName}",
+						$"Graph: {metadata.GraphName}",
+						$"Producer: {metadata.ProducerName}",
+						$"Domain: {metadata.Domain}",
+						$"Version: {metadata.Version}",
+						$"Description: {metadata.Description}",
+						$"Inputs:{Environment.NewLine}{inputs}",
+						$"Outputs:{Environment.NewLine}{outputs}"
+					};
+					if (metadata.CustomMetadataMap.Count > 0)
+						lines.Add($"Custom metadata: {string.Join(", ", metadata.CustomMetadataMap.Select(item => $"{item.Key}={item.Value}"))}");
+
+					return string.Join(Environment.NewLine, lines);
 				}
 
 				public void Dispose() => _session.Dispose();
