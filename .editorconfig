@@ -1,0 +1,10 @@
+﻿[*.cs]
+
+dotnet_diagnostic.IDE0290.severity = silent
+dotnet_diagnostic.CA1510.severity = silent
+dotnet_diagnostic.CA1513.severity = silent
+dotnet_diagnostic.IDE0046.severity = silent
+dotnet_diagnostic.CS1591.severity = silent
+
+# Default severity for all analyzer diagnostics
+dotnet_analyzer_diagnostic.severity = none

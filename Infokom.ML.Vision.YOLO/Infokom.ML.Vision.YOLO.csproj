@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<PackageId>Infokom.ML.Vision.YOLO</PackageId>
+		<PackageVersion>26.0.0</PackageVersion>
+		<Authors>Redjan Shabani</Authors>
+		<Company>INFOKOM shpk</Company>
+		<Description>.NET library for visual inference using the YOLO26 model family.</Description>
+		<Copyright>INFOKOM shpk</Copyright>
+		<RepositoryUrl>https://github.com/redishabani/Infokom.ML.Vision</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseFile>..\LICENSE</PackageLicenseFile>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>		
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Infokom.ML.Vision\Infokom.ML.Vision.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Infokom.ML.Vision.YOLO.Benchmarks" />
+	</ItemGroup>
+</Project>

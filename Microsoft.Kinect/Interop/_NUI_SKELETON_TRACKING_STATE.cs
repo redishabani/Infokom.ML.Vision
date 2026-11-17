@@ -1,0 +1,9 @@
+namespace Microsoft.Kinect.Interop
+{
+	internal enum _NUI_SKELETON_TRACKING_STATE
+	{
+		NUI_SKELETON_NOT_TRACKED,
+		NUI_SKELETON_POSITION_ONLY,
+		NUI_SKELETON_TRACKED
+	}
+}

@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="Infokom.ML.Vision.Apps.GUI.DesktopLPR/Infokom.ML.Vision.Apps.GUI.DesktopLPR.csproj" Id="a99ce462-848b-4fcf-a3ab-d0a64af48113" />
+  <Project Path="Infokom.ML.Vision.YOLO.Benchmarks/Infokom.ML.Vision.YOLO.Benchmarks.csproj" Id="d397d4e2-ee64-47a4-9ce1-f79b604c7b04" />
+  <Project Path="Infokom.ML.Vision.YOLO.WPF/Infokom.ML.Vision.YOLO.WPF.csproj" Id="c11754c5-133d-4461-a127-4dd357099de9" />
+  <Project Path="Infokom.ML.Vision.YOLO/Infokom.ML.Vision.YOLO.csproj" />
+  <Project Path="Infokom.ML.Vision/Infokom.ML.Vision.csproj" Id="768b37d4-b8e5-4cab-93f8-cabfdc5c3645" />
+  <Project Path="Infokom.Numerics/Infokom.Numerics.csproj" />
+  <Project Path="Microsoft.Kinect/Microsoft.Kinect.csproj" />
+</Solution>
